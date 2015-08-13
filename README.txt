@@ -1,6 +1,6 @@
 === WP Simple Twitter Feed ===
 Contributors: psdtohtmlguru
-Tags: comments, spam
+Tags: twitter, twitter api, twitter feed, custom html feed, wp twitter feeds widget, social media, customizable, caching, tweet, feed
 Requires at least: 3.0.1
 Tested up to: 4.2.4
 Stable tag: 1.0.1
