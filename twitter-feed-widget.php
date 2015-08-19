@@ -2,12 +2,12 @@
 /*
 Plugin Name: WP Simple Twitter Feed
 Description: Simple Twitter Feed WordPress Plugin, friendly with developers!
-Version: 1.0.1
+Version: 1.0.2
 Author: 9Pixels - Web Development Agency
 Author URI:  http://www.9pixels.co
 Plugin URI: http://www.9pixels.co
 Requires at least: 3.5
-Tested up to: 4.2.4
+Tested up to: 4.3
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -109,8 +109,12 @@ class pthgstfTwitterfeed_Widget extends WP_Widget {
 		self::$settings = get_option( self::$pthgstf_plugin_info[ 'TextDomain' ] . '_settings' );
 		
 		$widget_ops = array( 'classname' => 'widget_twitter_feed', 'description' => __( self::$pthgstf_plugin_info['Description'], self::$pthgstf_plugin_info[ 'TextDomain' ] ) );
-		parent::WP_Widget( self::$pthgstf_plugin_info[ 'PluginSlug' ], __( self::$pthgstf_plugin_info[ 'Name' ], self::$pthgstf_plugin_info[ 'TextDomain' ] ), $widget_ops );
-
+		parent::__construct(
+            self::$pthgstf_plugin_info[ 'PluginSlug' ], // Base ID
+            __( self::$pthgstf_plugin_info[ 'Name' ], self::$pthgstf_plugin_info[ 'TextDomain' ] ), // Name
+            $widget_ops // Args
+        );
+        
 		add_filter( self::$pthgstf_plugin_info[ 'TextDomain' ] . '_add_links', array( __Class__, 'filter_add_links' ) );
 		add_filter( self::$pthgstf_plugin_info[ 'TextDomain' ] . '_to_relative_date', array( __Class__, 'relative_date' ) );
 		add_filter( self::$pthgstf_plugin_info[ 'TextDomain' ] . '_include_in_template', array( __Class__, 'template_system' ), 2, 3 );
