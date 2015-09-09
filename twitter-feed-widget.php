@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Simple Twitter Feed
 Description: Simple Twitter Feed WordPress Plugin, friendly with developers!
-Version: 1.0.2
+Version: 1.0.3
 Author: 9Pixels - Web Development Agency
 Author URI:  http://www.9pixels.co
 Plugin URI: http://www.9pixels.co
@@ -124,8 +124,8 @@ class pthgstfTwitterfeed_Widget extends WP_Widget {
 		add_action( 'widgets_admin_page', array( __Class__, 'output_wp_editor_widget_html' ), 100 );
 		add_action( 'customize_controls_print_footer_scripts', array( __Class__, 'output_wp_editor_widget_html' ), 1 );
 		
-		add_action( 'admin_head', array( __Class__, 'admin_assets' ) );
-		add_action( 'customize_controls_print_footer_scripts', array( __Class__, 'admin_assets' ) );
+		add_action( 'customize_controls_print_footer_scripts', array( __Class__, 'admin_js' ) );
+		add_action( 'customize_controls_print_footer_scripts', array( __Class__, 'admin_css' ) );
 
 		add_action( 'wp_enqueue_scripts', array( __Class__, 'public_assets' ) );
 
@@ -142,7 +142,10 @@ class pthgstfTwitterfeed_Widget extends WP_Widget {
 	 * @return	void
 	 */
 	static function add_menu_admin(){
-		add_menu_page( __( 'Simple TF', self::$pthgstf_plugin_info[ 'TextDomain' ] ), __( 'Simple TF', self::$pthgstf_plugin_info[ 'TextDomain' ] ), 'manage_options', self::$pthgstf_plugin_info[ 'PluginSlug' ], array( __Class__, 'plugin_page' ), 'dashicons-twitter', 3 );
+		$menu = add_menu_page( __( 'Simple TF', self::$pthgstf_plugin_info[ 'TextDomain' ] ), __( 'Simple TF', self::$pthgstf_plugin_info[ 'TextDomain' ] ), 'manage_options', self::$pthgstf_plugin_info[ 'PluginSlug' ], array( __Class__, 'plugin_page' ), 'dashicons-twitter', 3 );
+
+		add_action( 'admin_print_styles-' . $menu, array( __Class__, 'admin_css' ) );
+		add_action( 'admin_print_scripts-' . $menu, array( __Class__, 'admin_js' ) );
 	}
 
 	/**
@@ -173,16 +176,24 @@ class pthgstfTwitterfeed_Widget extends WP_Widget {
 	}
 
 	/**
-	 * Load admin assets 
+	 * Load admin css files
 	 *
 	 * @return	void
 	 */
-	static function admin_assets(){
+	static function admin_css(){
+		wp_enqueue_style( self::$pthgstf_plugin_info[ 'TextDomain' ] . '-main-css', plugins_url() . '/' . dirname( plugin_basename( __FILE__ ) ) . '/assets/css/admin_style.css' );
+	}
+
+	/**
+	 * Load admin js files 
+	 *
+	 * @return	void
+	 */
+	static function admin_js(){
 		wp_enqueue_script( 'jquery' );
 		wp_enqueue_script( 'jquery-form' );
 	    wp_enqueue_script( 'dashboard' );
 		wp_enqueue_script( self::$pthgstf_plugin_info[ 'TextDomain' ] . '-main-js', plugins_url() . '/' . dirname( plugin_basename( __FILE__ ) ) . '/assets/js/admin_scripts.js' );
-		wp_enqueue_style( self::$pthgstf_plugin_info[ 'TextDomain' ] . '-main-css', plugins_url() . '/' . dirname( plugin_basename( __FILE__ ) ) . '/assets/css/admin_style.css' );
 	}
 
 	/**
